@@ -1,13 +1,14 @@
 package utils;
 
 public class Logger {
-    public enum LogLevels {
+    public enum ElevatedCriticalityLogLevels {
+        Unelevated,
         Info,
         Warning,
         Error
     }
 
-    public static void log(String message, String sender, LogLevels level) {
+    public static void log(String message, String sender, ElevatedCriticalityLogLevels level) {
         String colorCode = "";
         String resetColorCode = "\u001B[0m";
         switch (level) {
@@ -24,9 +25,12 @@ public class Logger {
                 break;
 
             default:
-
                 break;
         }
         System.out.println(colorCode + sender + ": " + message + resetColorCode);
+    }
+
+    public static void log(String message, String sender) {
+        System.out.println(sender + ": " + message);
     }
 }
