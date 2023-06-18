@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import datastrs.MessagesStore;
 import datastrs.SysData;
+import utils.Logger;
 import utils.Message;
 
 public class ReceiveQueueProcessorThread extends Thread {
@@ -43,5 +44,6 @@ public class ReceiveQueueProcessorThread extends Thread {
                 }
             }
         }
+        Logger.log("Exiting", "ReceiveQueueProcessorThread", Logger.ElevatedCriticalityLogLevels.Info);
     }
 }

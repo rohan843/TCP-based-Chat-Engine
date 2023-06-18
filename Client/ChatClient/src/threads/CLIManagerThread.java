@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import datastrs.MessagesStore;
 import datastrs.SysData;
+import utils.Logger;
 
 public class CLIManagerThread extends Thread {
     // Data stores.
@@ -38,6 +39,7 @@ public class CLIManagerThread extends Thread {
 
     @Override
     public void run() {
+        Scanner sc = new Scanner(System.in);
         while (!isSystemExitInitiated.get()) {
             // Display options
             System.out.println("Please choose an option:");
@@ -47,9 +49,9 @@ public class CLIManagerThread extends Thread {
             System.out.println("\t3: Exit");
 
             // Input choice
-            Scanner sc = new Scanner(System.in);
-            int choice = sc.nextInt();
+            int choice = Integer.parseInt(sc.nextLine());
 
+            // Temporary vars
             String username = null;
             String message = null;
 
@@ -77,8 +79,8 @@ public class CLIManagerThread extends Thread {
                     System.out.println("Invalid option");
                     break;
             }
-
-            sc.close();
         }
+        sc.close();
+        Logger.log("Exiting", "CLIManagerThread", Logger.ElevatedCriticalityLogLevels.Info);
     }
 }
