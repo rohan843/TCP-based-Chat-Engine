@@ -49,16 +49,43 @@ class LivelinessAnalyserThread extends Thread {
 
     @Override
     public void run() {
-        try {
-            Socket socket = new Socket(host, port);
-            System.out.println("Connected to server: " + host + " on port: " + port);
-            socketRef.set(socket);
-            isConnnectionToServerAlive.set(true);
-        } catch (IOException e) {
-            Logger.log("Some error occurred while establishing connection for the first time.",
-                    "LivelinessAnalyserThread",
-                    Logger.LogLevels.Error);
-            e.printStackTrace();
+        while (true) {
+            try {
+                Socket socket = new Socket(host, port);
+                Logger.log("Connected to server: " + host + " on port: " + port, "LivelinessAnalyserThread",
+                        Logger.LogLevels.Info);
+                socketRef.set(socket);
+                isConnnectionToServerAlive.set(true);
+            } catch (IOException e) {
+                Logger.log("Some error occurred while establishing connection for the first time.",
+                        getClass().getSimpleName(),
+                        Logger.LogLevels.Error);
+                e.printStackTrace();
+            }
+
+            while (!isConnnectionToServerAlive.get()) {
+                try {
+                    Socket socket = new Socket(host, port);
+                    Logger.log("Connected to server: " + host + " on port: " + port,
+                            "LivelinessAnalyserThread",
+                            Logger.LogLevels.Info);
+                    socketRef.set(socket);
+                    isConnnectionToServerAlive.set(true);
+                } catch (IOException e) {
+                    Logger.log("Some error occurred while re-establishing connection.",
+                            "LivelinessAnalyserThread",
+                            Logger.LogLevels.Error);
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Created 2 service workers.");
+
+            while (isConnnectionToServerAlive.get() && !socketRef.get().isClosed() && socketRef.get().isConnected()) {
+                continue;
+            }
+
+            isConnnectionToServerAlive.set(false);
         }
     }
 }
