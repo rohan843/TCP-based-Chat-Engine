@@ -28,7 +28,11 @@ public class KeepAliveServer {
                     clientSocket.setKeepAlive(true);
 
                     // Handle the connection (you can add your custom logic here)
-                    takeUserInput();
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
                     // Close the client socket
                     clientSocket.close();
@@ -37,7 +41,7 @@ public class KeepAliveServer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
             serverSocket.close();
 
         } catch (IOException e) {
