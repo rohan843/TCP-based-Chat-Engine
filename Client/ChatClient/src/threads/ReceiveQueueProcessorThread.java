@@ -1,10 +1,10 @@
 package threads;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import datastrs.MessagesStore;
 import datastrs.SysData;
 import utils.Message;
-
 
 public class ReceiveQueueProcessorThread extends Thread {
     // The queue to take received data from.
@@ -14,15 +14,20 @@ public class ReceiveQueueProcessorThread extends Thread {
     SysData sysData;
     MessagesStore messages;
 
-    public ReceiveQueueProcessorThread(ConcurrentLinkedQueue<String> recvQueue, SysData sysData, MessagesStore messages) {
+    // Monitoring system exit sequence.
+    AtomicBoolean isSystemExitInitiated;
+
+    public ReceiveQueueProcessorThread(ConcurrentLinkedQueue<String> recvQueue, SysData sysData, MessagesStore messages,
+            AtomicBoolean isSystemExitInitiated) {
         this.recvQueue = recvQueue;
         this.sysData = sysData;
         this.messages = messages;
+        this.isSystemExitInitiated = isSystemExitInitiated;
     }
 
     @Override
     public void run() {
-        while(true) {
+        while (!isSystemExitInitiated.get()) {
             if (!recvQueue.isEmpty()) {
                 // Retrieve the JSON message string from recvQueue.
                 String rawMessageString = recvQueue.remove();
