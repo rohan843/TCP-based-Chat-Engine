@@ -1,6 +1,7 @@
 package threads;
 
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import datastrs.MessagesStore;
 import datastrs.SysData;
@@ -13,10 +14,14 @@ public class CLIManagerThread extends Thread {
     // Monitoring system exit sequence.
     AtomicBoolean isSystemExitInitiated;
 
-    public CLIManagerThread(MessagesStore messages, SysData sysData, AtomicBoolean isSystemExitInitiated) {
+    // The send queue.
+    ConcurrentLinkedQueue<String> sendQueue;
+
+    public CLIManagerThread(MessagesStore messages, SysData sysData, AtomicBoolean isSystemExitInitiated, ConcurrentLinkedQueue<String> sendQueue) {
         this.messages = messages;
         this.sysData = sysData;
         this.isSystemExitInitiated = isSystemExitInitiated;
+        this.sendQueue = sendQueue;
     }
 
     private void showAllUserStatuses() {

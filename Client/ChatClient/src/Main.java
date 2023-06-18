@@ -2,6 +2,7 @@ import utils.Logger;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import datastrs.MessagesStore;
 import datastrs.SysData;
+import threads.CLIManagerThread;
 import threads.ReceiveQueueProcessorThread;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -11,12 +12,29 @@ public class Main {
     static MessagesStore messages = new MessagesStore();
     static SysData sysData = new SysData();
     static ReceiveQueueProcessorThread receiveQueueProcessorThread;
+    static CLIManagerThread cliManagerThread;
     static AtomicBoolean isSystemExitInitiated = new AtomicBoolean(false);
-    
+
     public static void main(String[] args) {
         Logger.log("System Initiating", "Main");
-        receiveQueueProcessorThread = new ReceiveQueueProcessorThread(recvQueue, sysData, messages, isSystemExitInitiated);
-        receiveQueueProcessorThread.start();
 
+        // Initialize threads
+        receiveQueueProcessorThread = new ReceiveQueueProcessorThread(recvQueue, sysData, messages,
+                isSystemExitInitiated);
+        cliManagerThread = new CLIManagerThread(messages, sysData, isSystemExitInitiated, sendQueue);
+
+        // Start threads
+        receiveQueueProcessorThread.start();
+        cliManagerThread.start();
+
+        // Join on threads
+        try {
+            cliManagerThread.join();
+            receiveQueueProcessorThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Logger.log("System terminating", "Main");
     }
 }
