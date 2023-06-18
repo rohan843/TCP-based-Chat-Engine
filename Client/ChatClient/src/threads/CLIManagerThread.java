@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import datastrs.MessagesStore;
 import datastrs.SysData;
 import utils.Logger;
+import utils.Message;
 
 public class CLIManagerThread extends Thread {
     // Data stores.
@@ -16,25 +17,30 @@ public class CLIManagerThread extends Thread {
     AtomicBoolean isSystemExitInitiated;
 
     // The send queue.
-    ConcurrentLinkedQueue<String> sendQueue;
+    ConcurrentLinkedQueue<Message> sendQueue;
 
-    public CLIManagerThread(MessagesStore messages, SysData sysData, AtomicBoolean isSystemExitInitiated, ConcurrentLinkedQueue<String> sendQueue) {
+    public CLIManagerThread(MessagesStore messages, SysData sysData, AtomicBoolean isSystemExitInitiated, ConcurrentLinkedQueue<Message> sendQueue) {
         this.messages = messages;
         this.sysData = sysData;
         this.isSystemExitInitiated = isSystemExitInitiated;
         this.sendQueue = sendQueue;
     }
 
+    // Shows the status of all users.
     private void showAllUserStatuses() {
         System.out.println("All user statuses shown.");
     }
 
+    // Shows the last 10 conversations done with a user.
     private void showUserConversation(String username) {
         System.out.println("Conversation history of " + username + " shown.");
     }
 
-    private void sendMessage(String username, String message) {
-        System.out.println("Sent message: " + message + " to user: " + username);
+    // Sends a specified message with the recepient set as the specified username by adding it to the send queue.
+    private void sendMessage(String username, String messageText) {
+        Message message = new Message(username, messageText);
+        sendQueue.add(message);
+        System.out.println("Message sent!");
     }
 
     @Override

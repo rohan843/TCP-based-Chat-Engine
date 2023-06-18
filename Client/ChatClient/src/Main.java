@@ -1,4 +1,5 @@
 import utils.Logger;
+import utils.Message;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import datastrs.MessagesStore;
 import datastrs.SysData;
@@ -8,7 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main {
     static ConcurrentLinkedQueue<String> recvQueue = new ConcurrentLinkedQueue<String>();
-    static ConcurrentLinkedQueue<String> sendQueue = new ConcurrentLinkedQueue<String>();
+    static ConcurrentLinkedQueue<Message> sendQueue = new ConcurrentLinkedQueue<Message>();
     static MessagesStore messages = new MessagesStore();
     static SysData sysData = new SysData();
     static ReceiveQueueProcessorThread receiveQueueProcessorThread;
