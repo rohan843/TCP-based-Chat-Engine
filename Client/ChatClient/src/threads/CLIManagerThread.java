@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import datastrs.MessagesStore;
 import datastrs.SysData;
+import datastrs.UserList;
 import utils.Logger;
 import utils.Message;
 
@@ -28,10 +29,18 @@ public class CLIManagerThread extends Thread {
 
     // Shows the status of all users.
     private void showAllUserStatuses() {
-        System.out.println("All user statuses shown.");
+        UserList usernames = sysData.getUserList();
+        int maxKeyLength = 0;
+        for (String s: usernames.getList()) {
+            maxKeyLength = Math.max(maxKeyLength, s.length());
+        }
+        for (String s: usernames.getList()) {
+            System.out.printf("%-" + (maxKeyLength + 1) + "s %s%n", s + ":", sysData.getStatus(s).getStatusDisplayString());
+        }
     }
 
     // Shows the last 10 conversations done with a user.
+    // TODO: Decide how to show entire conversation history
     private void showUserConversation(String username) {
         System.out.println("Conversation history of " + username + " shown.");
     }
