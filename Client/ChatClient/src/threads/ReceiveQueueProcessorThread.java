@@ -37,7 +37,7 @@ public class ReceiveQueueProcessorThread extends Thread {
                 Message message = new Message(rawMessageString);
 
                 // Place the message data in appropriate data structure.
-                if (message.isServiceMessage) {
+                if (message.isServiceMessage()) {
                     sysData.update(message);
                 } else {
                     messages.update(message);

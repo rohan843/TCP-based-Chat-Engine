@@ -15,5 +15,7 @@ public class MessagesStore {
         String messageContent = message.getMessageContent();
         String timestamp = message.getMessageTimestamp();
         boolean wasMessageSentToCurrentClient = !message.isOutboundMessage();
+
+        
     }
 }
