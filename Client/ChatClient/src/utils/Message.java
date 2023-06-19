@@ -1,7 +1,7 @@
 package utils;
 
 public class Message {
-    public boolean isSystemMessage;
+    public boolean isServiceMessage;
     
     // To convert a received JSON into a Message object.
     public Message(String rawMessageString) {
@@ -11,5 +11,9 @@ public class Message {
     // To initialize a message object with specified data.
     public Message(String username, String message) {
 
+    }
+
+    public String toJSONString() {
+        return "";
     }
 }

@@ -18,9 +18,9 @@ public class CLIManagerThread extends Thread {
     AtomicBoolean isSystemExitInitiated;
 
     // The send queue.
-    ConcurrentLinkedQueue<Message> sendQueue;
+    ConcurrentLinkedQueue<String> sendQueue;
 
-    public CLIManagerThread(MessagesStore messages, SysData sysData, AtomicBoolean isSystemExitInitiated, ConcurrentLinkedQueue<Message> sendQueue) {
+    public CLIManagerThread(MessagesStore messages, SysData sysData, AtomicBoolean isSystemExitInitiated, ConcurrentLinkedQueue<String> sendQueue) {
         this.messages = messages;
         this.sysData = sysData;
         this.isSystemExitInitiated = isSystemExitInitiated;
@@ -48,7 +48,7 @@ public class CLIManagerThread extends Thread {
     // Sends a specified message with the recepient set as the specified username by adding it to the send queue.
     private void sendMessage(String username, String messageText) {
         Message message = new Message(username, messageText);
-        sendQueue.add(message);
+        sendQueue.add(message.toJSONString());
         System.out.println("Message sent!");
     }
 
