@@ -10,6 +10,7 @@ import utils.DateTime;
 import utils.Logger;
 import utils.Message;
 import utils.SelfData;
+import java.util.ArrayList;
 
 public class CLIManagerThread extends Thread {
     // Data stores.
@@ -48,7 +49,10 @@ public class CLIManagerThread extends Thread {
     // Shows the last 10 conversations done with a user.
     // TODO: Decide how to show entire conversation history
     private void showUserConversation(String username) {
-        System.out.println("Conversation history of " + username + " shown.");
+        ArrayList<String> conversation = messages.getChatDisplayStringsFor(username);
+        for(String conversatioString: conversation) {
+            System.out.println(conversatioString);
+        }
     }
 
     // Sends a specified message with the recepient set as the specified username by adding it to the send queue.

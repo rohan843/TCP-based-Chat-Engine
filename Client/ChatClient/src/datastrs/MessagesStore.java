@@ -4,8 +4,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Collections;
+import java.util.Map;
+
 import utils.ChatMessage;
 import utils.Message;
+import java.util.ArrayList;
 
 public class MessagesStore {
     // Username --> ChatMessage linked list (sorted on the basis of timestamp,
@@ -34,5 +37,18 @@ public class MessagesStore {
         }
 
         map.get(conversationUsername).put(timestamp, chatMessage);
+    }
+
+    public ArrayList<String> getChatDisplayStringsFor(String username) {
+        ArrayList<String> res = new ArrayList<String>();
+        if (!map.containsKey(username)) {
+            return res;
+        } else {
+            for (Map.Entry<String, ChatMessage> entry : map.get(username).entrySet()) {
+                ChatMessage message = entry.getValue();
+                res.add(message.toReadableString());
+            }
+            return res;
+        }
     }
 }
