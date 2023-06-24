@@ -8,6 +8,7 @@ import datastrs.SysData;
 import datastrs.UserList;
 import utils.Logger;
 import utils.Message;
+import utils.SelfData;
 
 public class CLIManagerThread extends Thread {
     // Data stores.
@@ -20,11 +21,15 @@ public class CLIManagerThread extends Thread {
     // The send queue.
     ConcurrentLinkedQueue<String> sendQueue;
 
-    public CLIManagerThread(MessagesStore messages, SysData sysData, AtomicBoolean isSystemExitInitiated, ConcurrentLinkedQueue<String> sendQueue) {
+    // Metadata about the user.
+    SelfData selfData;
+
+    public CLIManagerThread(MessagesStore messages, SysData sysData, AtomicBoolean isSystemExitInitiated, ConcurrentLinkedQueue<String> sendQueue, SelfData selfData) {
         this.messages = messages;
         this.sysData = sysData;
         this.isSystemExitInitiated = isSystemExitInitiated;
         this.sendQueue = sendQueue;
+        this.selfData = selfData;
     }
 
     // Shows the status of all users.
@@ -47,7 +52,8 @@ public class CLIManagerThread extends Thread {
 
     // Sends a specified message with the recepient set as the specified username by adding it to the send queue.
     private void sendMessage(String username, String messageText) {
-        Message message = new Message(username, messageText);
+        String timestamp = ;
+        Message message = new Message(selfData.getUsername(), username, messageText, timestamp, true, false);
         sendQueue.add(message.toJSONString());
         System.out.println("Message sent!");
     }
@@ -55,6 +61,10 @@ public class CLIManagerThread extends Thread {
     @Override
     public void run() {
         Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter your username:");
+        String selfUsername = sc.nextLine();
+        selfData.setUsername(selfUsername);
+
         while (!isSystemExitInitiated.get()) {
             // Display options
             System.out.println("Please choose an option:");

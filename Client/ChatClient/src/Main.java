@@ -1,4 +1,5 @@
 import utils.Logger;
+import utils.SelfData;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import datastrs.MessagesStore;
 import datastrs.SysData;
@@ -14,6 +15,7 @@ public class Main {
     static ReceiveQueueProcessorThread receiveQueueProcessorThread;
     static CLIManagerThread cliManagerThread;
     static AtomicBoolean isSystemExitInitiated = new AtomicBoolean(false);
+    static SelfData selfData;
 
     public static void main(String[] args) {
         Logger.log("System Initiating", "Main");
@@ -21,7 +23,7 @@ public class Main {
         // Initialize threads
         receiveQueueProcessorThread = new ReceiveQueueProcessorThread(recvQueue, sysData, messages,
                 isSystemExitInitiated);
-        cliManagerThread = new CLIManagerThread(messages, sysData, isSystemExitInitiated, sendQueue);
+        cliManagerThread = new CLIManagerThread(messages, sysData, isSystemExitInitiated, sendQueue, selfData);
 
         // Start threads
         receiveQueueProcessorThread.start();
