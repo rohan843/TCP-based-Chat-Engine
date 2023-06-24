@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import datastrs.MessagesStore;
 import datastrs.SysData;
 import datastrs.UserList;
+import utils.DateTime;
 import utils.Logger;
 import utils.Message;
 import utils.SelfData;
@@ -52,7 +53,7 @@ public class CLIManagerThread extends Thread {
 
     // Sends a specified message with the recepient set as the specified username by adding it to the send queue.
     private void sendMessage(String username, String messageText) {
-        String timestamp = ;
+        String timestamp = DateTime.getCurrentISTTimeStampString();
         Message message = new Message(selfData.getUsername(), username, messageText, timestamp, true, false);
         sendQueue.add(message.toJSONString());
         System.out.println("Message sent!");
