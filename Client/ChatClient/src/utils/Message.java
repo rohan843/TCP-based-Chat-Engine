@@ -15,7 +15,7 @@ public class Message {
     private boolean isServiceMessage;
     private boolean isOutboundMessage;
 
-    // To convert a received JSON into a Message object (extract values of data
+    // To convert a received message string into a Message object (extract values of data
     // members).
     public Message(String rawMessageString) {
         this.isOutboundMessage = false;
@@ -38,9 +38,13 @@ public class Message {
         this.isOutboundMessage = isOutboundMessage;
     }
 
-    // Converts the message object to its JSON equivalent.
+    // Converts the message object to its string equivalent.
     public String serialize() {
-        return "";
+        return senderUsername + "|" 
+        + receiverUsername + "|" 
+        + messageContentString + "|" 
+        + messageTimestamp + "|" 
+        + (isServiceMessage ? "true" : "false");
     }
 
     // Returns the username of the sender.
