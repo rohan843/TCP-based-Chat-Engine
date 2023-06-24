@@ -58,7 +58,7 @@ public class CLIManagerThread extends Thread {
     private void sendMessage(String username, String messageText) {
         String timestamp = DateTime.getCurrentISTTimeStampString();
         Message message = new Message(selfData.getUsername(), username, messageText, timestamp, true, false);
-        sendQueue.add(message.toJSONString());
+        sendQueue.add(message.serialize());
         System.out.println("Message sent!");
     }
 

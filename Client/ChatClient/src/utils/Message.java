@@ -1,31 +1,30 @@
 package utils;
 
 /*
- * If a message is received as JSON, it should have the following format:
+ * Message Serialization:
  * 
- * {
- *      "sender": <senderUsername>,
- *      "receiver": <receiverUsername>,
- *      "content": <messageContentString>,
- *      "timestamp": <messageTimestamp>,
- *      "serviceMessage": <isServiceMessage>  [true | false]
- * }
+ * <senderUsername>|<receiverUsername>|<messageContentString>|<messageTimestamp>|<isServiceMessage = [true|false]>
  * 
 */
 
 public class Message {
-    private boolean isServiceMessage;
     private String senderUsername;
     private String receiverUsername;
     private String messageContentString;
     private String messageTimestamp;
+    private boolean isServiceMessage;
     private boolean isOutboundMessage;
 
     // To convert a received JSON into a Message object (extract values of data
     // members).
     public Message(String rawMessageString) {
         this.isOutboundMessage = false;
-        
+        String[] parts = rawMessageString.split("|");
+        senderUsername = parts[0];
+        receiverUsername = parts[1];
+        messageContentString = parts[2];
+        messageTimestamp = parts[3];
+        isServiceMessage = parts[4].equals("true");
     }
 
     // To initialize a message object with specified data.
@@ -40,16 +39,8 @@ public class Message {
     }
 
     // Converts the message object to its JSON equivalent.
-    public String toJSONString() {
-        return "{\"sender\":\"" 
-        + senderUsername 
-        + "\",\"receiver\":\"" 
-        + receiverUsername 
-        + "\",\"content\":\"" 
-        + messageContentString 
-        + "\",\"timestamp\":\"" 
-        + messageTimestamp 
-        + "\",\"serviceMessage\":false}";
+    public String serialize() {
+        return "";
     }
 
     // Returns the username of the sender.
