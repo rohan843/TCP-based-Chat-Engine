@@ -1,3 +1,0 @@
-digraph "com.example:my-project:jar:1.0.0" { 
-	"com.example:my-project:jar:1.0.0" -> "com.google.code.gson:gson:jar:2.10:compile" ; 
- } 

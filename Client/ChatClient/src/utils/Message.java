@@ -1,9 +1,5 @@
 package utils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 /*
  * If a message is received as JSON, it should have the following format:
  * 
@@ -29,14 +25,7 @@ public class Message {
     // members).
     public Message(String rawMessageString) {
         this.isOutboundMessage = false;
-        Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(rawMessageString, JsonObject.class);
-        String name = jsonObject.get("name").getAsString();
-        this.senderUsername = jsonObject.get("sender").getAsString();
-        this.receiverUsername = jsonObject.get("receiver").getAsString();
-        this.messageContentString = jsonObject.get("content").getAsString();
-        this.messageTimestamp = jsonObject.get("timestamp").getAsString();
-        this.isServiceMessage = jsonObject.get("serviceMessage").getAsBoolean();
+        
     }
 
     // To initialize a message object with specified data.
@@ -52,15 +41,15 @@ public class Message {
 
     // Converts the message object to its JSON equivalent.
     public String toJSONString() {
-        return "{\"sender\": \"" 
+        return "{\"sender\":\"" 
         + senderUsername 
-        + "\",\"receiver\": \"" 
+        + "\",\"receiver\":\"" 
         + receiverUsername 
-        + "\",\"content\": \"" 
+        + "\",\"content\":\"" 
         + messageContentString 
-        + "\",\"timestamp\": \"" 
+        + "\",\"timestamp\":\"" 
         + messageTimestamp 
-        + "\",\"serviceMessage\": false}";
+        + "\",\"serviceMessage\":false}";
     }
 
     // Returns the username of the sender.
