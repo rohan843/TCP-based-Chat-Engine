@@ -1,5 +1,19 @@
 package utils;
 
+import com.google.gson;
+
+/*
+ * If a message is received as JSON, it should have the following format:
+ * 
+ * {
+ *      "sender": <senderUsername>,
+ *      "receiver": <receiverUsername>,
+ *      "content": <messageContentString>,
+ *      "timestamp": <messageTimestamp>,
+ *      "serviceMessage": <isServiceMessage>  [true | false]
+ * }
+ * 
+*/
 
 public class Message {
     private boolean isServiceMessage;
@@ -9,8 +23,9 @@ public class Message {
     private String messageTimestamp;
     private boolean isOutboundMessage;
 
-    // TODO: To convert a received JSON into a Message object (extract values of data members).
+    // To convert a received JSON into a Message object (extract values of data members).
     public Message(String rawMessageString) {
+        this.isOutboundMessage = false;
 
     }
 
@@ -25,7 +40,7 @@ public class Message {
         this.isOutboundMessage = isOutboundMessage;
     }
 
-    // Converts the message object to its JSON equivalent.
+    // TODO: Converts the message object to its JSON equivalent.
     public String toJSONString() {
         return "";
     }
