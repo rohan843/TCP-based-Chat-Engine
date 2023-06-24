@@ -46,8 +46,7 @@ public class CLIManagerThread extends Thread {
         }
     }
 
-    // Shows the last 10 conversations done with a user.
-    // TODO: Decide how to show entire conversation history
+    // Shows the conversations done with a user.
     private void showUserConversation(String username) {
         ArrayList<String> conversation = messages.getChatDisplayStringsFor(username);
         for(String conversatioString: conversation) {

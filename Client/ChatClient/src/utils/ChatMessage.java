@@ -27,4 +27,8 @@ public class ChatMessage {
             return "You [" + timestamp + "]: " + whiteColor + messageContent + resetColor;
         }
     }
+
+    public String toVerboseString() {
+        return senderUsername + " sent to " + recevierUsername + " at " + timestamp + " IST: " + messageContent;
+    }
 }
