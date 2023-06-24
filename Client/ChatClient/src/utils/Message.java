@@ -1,3 +1,7 @@
+// TODO: DEAL WITH SERVICE MESSAGES. DON'T USE JSON.
+
+
+
 package utils;
 
 /*
